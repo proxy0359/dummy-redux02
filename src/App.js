@@ -7,7 +7,9 @@ import { useDispatch } from "react-redux";
 import { cartAction } from "./store/Cart-redux";
 import Notification from "./components/UI/Notifcation";
 
-import { sendCartData } from "./store/Item-redux";
+import { sendCartData } from "./store/Cart-Action";
+import { itemAction } from "./store/Item-redux";
+import { getData } from "./store/Cart-Action";
 
 let runOnce = true;
 
@@ -18,11 +20,17 @@ function App() {
   const item = useSelector((state) => state.item);
 
   useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (runOnce) {
       runOnce = false;
       return;
     }
-    dispatch(sendCartData(item));
+    if (item.changed) {
+      dispatch(sendCartData(item));
+    }
   }, [item]);
 
   return (
