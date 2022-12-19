@@ -40,15 +40,17 @@ const Items = createSlice({
     removeItem(state, action) {
       const id = action.payload;
       const existingItem = state.items.find((item) => item.id === id);
-      state.totalAmount--;
+
       state.changed = true;
 
       if (existingItem.amount === 1) {
         state.items = state.items.filter((items) => items.id !== id);
         existingItem.amount--;
+        state.totalAmount--;
       } else {
         existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
         existingItem.amount--;
+        state.totalAmount--;
       }
     },
   },
