@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cartAction } from "./Cart-redux";
 
 const defaultState = {
   items: [],
@@ -46,6 +47,50 @@ const Items = createSlice({
     },
   },
 });
+
+export const sendCartData = (cart) => {
+  return async (dispatch) => {
+    dispatch(
+      cartAction.cartStatus({
+        title: "processing...",
+        status: "proccessing",
+        description: "data is being",
+      })
+    );
+    const sendRequest = async () => {
+      const response = await fetch(
+        "https://food-order-app-fed0b-default-rtdb.asia-southeast1.firebasedatabase.app/redux-item.json",
+        {
+          method: "PUT",
+          body: JSON.stringify(cart),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("There is an error in the response");
+      }
+
+      const responseData = response.json();
+    };
+    try {
+      await sendRequest();
+      dispatch(
+        cartAction.cartStatus({
+          title: "Sent Successfully",
+          status: "success",
+          description: "Data is sent",
+        })
+      );
+    } catch {
+      dispatch(
+        cartAction.cartStatus({
+          title: "There is an Error ",
+          status: "error",
+          description: "Data is unable to send because of an error",
+        })
+      );
+    }
+  };
+};
 
 export const itemAction = Items.actions;
 
