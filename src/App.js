@@ -18,8 +18,13 @@ function App() {
   const notificationStatus = useSelector((state) => state.cart.notifications);
   const showItem = useSelector((state) => state.cart.showCart);
   const item = useSelector((state) => state.item);
+  const cartItem = useSelector((state) => state.item.items);
 
   useEffect(() => {
+    if (runOnce) {
+      runOnce = false;
+      return;
+    }
     dispatch(getData());
   }, [dispatch]);
 
@@ -29,7 +34,7 @@ function App() {
       return;
     }
     if (item.changed) {
-      dispatch(sendCartData(item));
+      dispatch(sendCartData(cartItem));
     }
   }, [item]);
 

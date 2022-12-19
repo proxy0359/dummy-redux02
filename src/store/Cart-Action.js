@@ -9,9 +9,11 @@ export const getData = () => {
         "https://food-order-app-fed0b-default-rtdb.asia-southeast1.firebasedatabase.app/redux-item.json"
       );
       if (!fetchData.ok) {
-        throw new Error("there is an error getting the data");
+        throw new Error("there was an error getting the data");
       }
       const updatedData = await fetchData.json();
+
+      
       return updatedData;
     };
     try {
